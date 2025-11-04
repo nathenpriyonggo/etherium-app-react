@@ -1,0 +1,105 @@
+/* --- Journal Page Specific Styles --- */
+
+.journal-screen {
+    background-color: #282c34; /* Different background for differentiation */
+    justify-content: flex-start; /* Align content to the top */
+    padding: 0; /* Remove padding to allow header/nav to span edge-to-edge */
+}
+
+/* Header Styling */
+.journal-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 10px 20px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.journal-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    flex-grow: 1; /* Push the menu button to the right */
+    text-align: center;
+}
+
+.menu-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    position: absolute; /* Position explicitly on the top right */
+    right: 20px;
+    z-index: 10;
+}
+
+/* Main Content Area */
+.journal-main-content {
+    padding: 10px 20px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Journal Action Buttons Layout (Flex Row) */
+.journal-actions-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.journal-action-button {
+    background-color: #4a4e69;
+    border: none;
+    border-radius: 15px;
+    padding: 20px 15px;
+    text-align: left;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.journal-action-button:hover {
+    background-color: #5b6080;
+}
+
+/* Specific sizing for the primary row buttons */
+.journal-actions-row .journal-action-button {
+    flex: 1; /* Ensures both buttons in the row take equal space */
+}
+
+/* Specific sizing for the full-width secondary button */
+.secondary-action {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.button-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.button-explanation {
+    font-size: 0.8rem;
+    color: #b0c4de;
+}
+
+/* Placeholder for remaining content space */
+.journal-placeholder {
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b0c4de;
+    font-size: 0.9rem;
+}

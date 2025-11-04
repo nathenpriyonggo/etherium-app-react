@@ -1,0 +1,94 @@
+/* --- Open Journal Page Styles --- */
+
+.journal-writing-screen {
+    background-color: #f8f8f8; /* Light background for writing focus */
+    color: #333;
+    padding: 0; 
+    justify-content: flex-start;
+}
+
+/* 1. Toolbar Styles */
+.writing-toolbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #333652; /* Dark bar for contrast */
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.toolbar-button {
+    background: none;
+    border: none;
+    color: #E0E1EC;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.toolbar-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.customization-tools {
+    display: flex;
+    gap: 5px;
+}
+
+.save-button {
+    background-color: #4CAF50; /* Green for success/save */
+    color: white;
+    font-weight: bold;
+}
+
+.save-button:hover:not(:disabled) {
+    background-color: #43A047;
+}
+
+.save-button.saving {
+    background-color: #FFC107; /* Yellow/Orange when saving */
+    cursor: default;
+}
+
+/* 2. Writing Canvas */
+.writing-canvas {
+    flex-grow: 1; /* Allows the writing area to fill the remaining space */
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.journal-textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;
+    background-color: transparent;
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    outline: none;
+}
+
+.journal-textarea::placeholder {
+    color: #aaa;
+}
+
+/* Autosave Feedback */
+.autosave-feedback {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    background-color: #FFC107;
+    color: #333;
+    font-size: 0.8rem;
+}

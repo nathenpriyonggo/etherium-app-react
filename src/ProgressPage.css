@@ -1,0 +1,177 @@
+/* Note: mobile-screen, progress-header, and menu-button styles can be shared 
+   from JournalPage.css or a global file, but are included here for clarity. */
+
+.progress-screen {
+    background-color: #1a1a2e; /* Dark background */
+    padding: 0;
+}
+
+.progress-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 10px 20px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.progress-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.progress-main-content {
+    padding: 10px 20px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+}
+
+/* --- 1. Progress Overview --- */
+
+.progress-overview {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.xp-circle {
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, #2d3047 0%, #1a1a2e 70%); /* Inner radial gradient */
+    border: 5px solid #FF6B6B; /* High-value highlight color */
+    border-radius: 50%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+}
+
+.xp-inner-content p {
+    font-size: 0.8rem;
+    color: #E0E1EC;
+    margin: 0;
+}
+
+.xp-level {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: white;
+}
+
+/* XP Bar (for visual progression) */
+.xp-bar-container {
+    height: 8px;
+    width: 80%;
+    background-color: #333652;
+    border-radius: 4px;
+    margin: 10px auto;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    background-color: #58A4B0; /* Blue/Cyan progress color */
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.key-metrics p {
+    font-size: 1rem;
+    color: #b0c4de;
+    margin: 5px 0;
+    text-align: left;
+    padding-left: 10%;
+}
+
+.key-metrics p b {
+    color: white;
+}
+
+/* --- 2. Achievement/Milestone Path --- */
+
+.milestone-path-container h3 {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #FF6B6B;
+}
+
+.milestone-path {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+/* Connecting Line */
+.milestone-path::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 3px;
+    background-color: #333652;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.milestone-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 20%;
+    position: relative;
+    z-index: 2;
+}
+
+.milestone-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #333652;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border: 3px solid #FF6B6B; /* Pending border color */
+    margin-bottom: 5px;
+    cursor: default;
+    transition: all 0.3s;
+}
+
+/* Completed Milestones */
+.milestone-node.completed .milestone-icon {
+    background-color: #FF6B6B; /* Solid color when completed */
+    border-color: #FF6B6B;
+    cursor: pointer; /* Interactive for revisiting entries */
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+}
+
+.milestone-node.completed .milestone-icon:hover {
+    transform: scale(1.1);
+}
+
+.milestone-label {
+    font-size: 0.8rem;
+    color: #b0c4de;
+    margin: 2px 0;
+}
+
+.milestone-date {
+    font-size: 0.65rem;
+    color: #58A4B0;
+    margin: 0;
+}
+
+.path-guide {
+    font-size: 0.8rem;
+    text-align: center;
+    color: #58A4B0;
+    padding-top: 10px;
+}

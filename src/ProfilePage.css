@@ -1,0 +1,99 @@
+/* Note: mobile-screen, header, and menu-button styles can be shared globally */
+
+.profile-screen {
+    background-color: #282c34; /* Dark background color */
+    padding: 0;
+    justify-content: flex-start;
+}
+
+.profile-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 10px 20px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.profile-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    flex-grow: 1; 
+    text-align: center;
+}
+
+/* Main Content Styling */
+.profile-main-content {
+    padding: 10px 20px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    color: white;
+}
+
+/* Profile Picture Area */
+.profile-pic-container {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-top: 10px;
+}
+
+.profile-pic-circle {
+    width: 100px;
+    height: 100px;
+    background-color: #58A4B0; /* Blue/Cyan placeholder */
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    box-shadow: 0 0 10px rgba(88, 164, 176, 0.5);
+}
+
+.profile-pic-container h3 {
+    font-size: 1.4rem;
+    margin: 5px 0 0;
+}
+
+/* General Section Styling */
+.profile-section {
+    background-color: #333652;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-section h4 {
+    color: #FF6B6B; /* Highlight color */
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+}
+
+.summary-section p {
+    font-size: 0.9rem;
+    color: #E0E1EC;
+    margin: 8px 0;
+}
+
+/* Options/Link Styling */
+.option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    font-size: 1rem;
+    color: #E0E1EC;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.option-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.option-item span:last-child {
+    color: #b0c4de;
+}
