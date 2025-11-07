@@ -26,7 +26,7 @@ body {
     overflow: hidden; 
 
     /* BACKGROUND IMAGE STYLES */
-    background-image: url('/landing_bg.png');
+    background-image: url('/landing_bgs.png');
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
