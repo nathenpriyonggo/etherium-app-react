@@ -1,7 +1,7 @@
 /* --- Open Journal Page Styles --- */
 
 .journal-writing-screen {
-    background-color: #f8f8f8; /* Light background for writing focus */
+    background-image: url('/public/IMG_0802.png');
     color: #333;
     padding: 0; 
     justify-content: flex-start;
