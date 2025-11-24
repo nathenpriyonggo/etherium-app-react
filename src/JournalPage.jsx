@@ -5,11 +5,17 @@ import './JournalPage.css';
 // Sparkle Menu Icon 
 const MenuIcon = '☰';
 
-const JournalPage = ({ goToPage, startNewEntry, resumeCurrentEntry }) => {
+const JournalPage = ({ goToPage, startNewEntry, resumeCurrentEntry, entries, openEntry, }) => {
     const [isNavOpen, setIsNavOpen] = useState(false);
+
+    const [showList, setShowList] = useState(false);
 
     const toggleNav = () => {
         setIsNavOpen(prev => !prev);
+    };
+
+    const toggleAllJournals = () => {
+        setShowList((prev) => !prev);
     };
 
     return (
@@ -56,10 +62,14 @@ const JournalPage = ({ goToPage, startNewEntry, resumeCurrentEntry }) => {
                     <span className="button-explanation">Quickly return to your recent writing adventure</span>
                 </button>
 
-                {/* Beautiful Placeholder */}
-                <div className="journal-placeholder">
-                    <p>✨ Your past entries & magical prompts will appear here...</p>
-                </div>
+                {/* 4. All Journals */}
+                <button
+                    className="journal-action-button secondary-action"
+                    onClick={() => goToPage(5)}
+                >
+                    <span className="button-title">All Journals</span>
+                    <span className="button-explanation">Tap to view all your past entries</span>
+                </button>
             </main>
 
             {/* 3. Side Navigation Component */}

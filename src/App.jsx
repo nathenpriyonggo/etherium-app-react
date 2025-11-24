@@ -4,12 +4,30 @@ import JournalPage from './JournalPage';
 import ProgressPage from './ProgressPage';
 import ProfilePage from './ProfilePage';
 import OpenJournal from './OpenJournal';
+import AllJournalsPage from './AllJournalsPage';
 
+const XP_PER_LEVEL = 100;
+
+const initialStats = {
+  totalXp: 0,
+  level: 1,
+  totalEntries: 0,
+  totalWords: 0,
+  currentStreak: 0,
+  lastEntryDate: null,
+};
 
 function App() {
     const [currentPage, setCurrentPage] = useState(1); 
     // Centralized state for the current journal entry content
     const [currentEntry, setCurrentEntry] = useState("Draft started at " + new Date().toLocaleTimeString());
+
+    // list of all saved journal entries
+    // each entry has shape { id, content, wordCount, date }
+    const [entries, setEntries] = useState([]);
+
+    // progress stats for xp and streak
+    const [stats, setStats] = useState(initialStats);
 
     // Central function to handle all page switching
     const goToPage = (pageNumber) => {
@@ -21,8 +39,85 @@ function App() {
         goToPage(2);
     };
 
+    // Function to open an existing journal entry for editing
+    const openExistingEntry = (entryId) => {
+        const entry = entries.find(e => e.id === entryId);
+        if (!entry) return;
+
+        // load the content into the current draft
+        setCurrentEntry(entry.content);
+
+        // go to the OpenJournal writing screen
+        goToPage(6);   // keep the same page number you already use for OpenJournal
+    };
+
+    // helper to update stats when a journal is saved
+    const updateStatsForSavedEntry = (wordCount, todayKey) => {
+        setStats((prev) => {
+        const baseXp = 10;
+        const wordXp = Math.min(30, Math.floor(wordCount / 20));
+
+        let streak = prev.currentStreak;
+
+        if (!prev.lastEntryDate) {
+            streak = 1;
+        } else {
+            const last = prev.lastEntryDate;
+
+            // very simple streak rule:
+            // same day keeps streak
+            // previous day extends streak
+            // anything else resets to one
+            if (last === todayKey) {
+            // same day, streak unchanged
+            } else {
+            const todayDate = new Date(todayKey);
+            const yesterdayDate = new Date(todayDate);
+            yesterdayDate.setDate(todayDate.getDate() - 1);
+            const yesterdayKey = yesterdayDate.toISOString().slice(0, 10);
+
+            if (last === yesterdayKey) {
+                streak = prev.currentStreak + 1;
+            } else {
+                streak = 1;
+            }
+            }
+        }
+
+        const streakXp = streak > 1 ? 15 : 0;
+        const gainedXp = baseXp + wordXp + streakXp;
+
+        const newTotalXp = prev.totalXp + gainedXp;
+        const newLevel = 1 + Math.floor(newTotalXp / XP_PER_LEVEL);
+
+        return {
+            ...prev,
+            totalXp: newTotalXp,
+            level: newLevel,
+            totalEntries: prev.totalEntries + 1,
+            totalWords: prev.totalWords + wordCount,
+            currentStreak: streak,
+            lastEntryDate: todayKey,
+        };
+        });
+    };
+
     // Function to handle saving and navigation from the OpenJournal page
     const saveAndGoToJournal = (content) => {
+        const trimmed = content.trim();
+        const wordCount =
+        trimmed === '' ? 0 : trimmed.split(/\s+/).length;
+
+        const today = new Date();
+        const todayKey = today.toISOString().slice(0, 10);
+
+        // create a new entry object and store at top of list
+        const newEntry = {id: Date.now(), content, wordCount, date: todayKey,};
+
+        setEntries((prev) => [newEntry, ...prev]);
+
+        updateStatsForSavedEntry(wordCount, todayKey);
+
         setCurrentEntry(content); // Update the final content
         // In a real app, this is where you'd dispatch the data to Firebase/backend
         console.log("FINAL SAVE to App State:", content.substring(0, 30) + '...');
@@ -52,12 +147,32 @@ function App() {
                         goToPage={goToPage} 
                         startNewEntry={startNewEntry}       // Passed to the "+ New Journal" button
                         resumeCurrentEntry={resumeCurrentEntry} // Passed to "Current Journal" & "Resume Last Entry"
+                        entries={entries}
+                        openEntry={openExistingEntry}
                     />
                 ); 
             case 3:
-                return <ProgressPage goToPage={goToPage} />;
+                return (
+                    <ProgressPage
+                        goToPage={goToPage}
+                        stats={stats}
+                    />
+                );
             case 4:
-                return <ProfilePage goToPage={goToPage} />;
+                return (
+                    <ProfilePage
+                        goToPage={goToPage}
+                        stats={stats}
+                    />
+                );
+            case 5:
+                return (
+                    <AllJournalsPage
+                        goToPage={goToPage}
+                        entries={entries}
+                        openEntry={openExistingEntry}
+                    />
+                );
             case 6:
                 // OpenJournal receives the content and the update/save handlers
                 return (

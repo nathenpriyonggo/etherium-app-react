@@ -5,12 +5,22 @@ import './ProfilePage.css';
 // Sparkle Menu Icon
 const MenuIcon = '☰';
 
-const ProfilePage = ({ goToPage }) => {
+const ProfilePage = ({ goToPage, stats }) => {
     const [isNavOpen, setIsNavOpen] = useState(false);
 
     const toggleNav = () => {
         setIsNavOpen(prev => !prev);
     };
+
+    const safeStats =
+    stats || {
+      totalXp: 0,
+      level: 1,
+      totalEntries: 0,
+      currentStreak: 0,
+    };
+
+    const { totalXp, level, totalEntries, currentStreak } = safeStats;
 
     return (
         <div className="mobile-screen profile-screen">
@@ -35,9 +45,10 @@ const ProfilePage = ({ goToPage }) => {
                 {/* Journaling Summary Section */}
                 <div className="profile-section summary-section">
                     <h4>✨ Journaling Journey</h4>
-                    <p>Total Entries: <strong>45</strong></p>
-                    <p>Current Streak: <strong>7 Days</strong></p>
-                    <p>XP Level: <strong>82</strong></p>
+                    <p>Total Entries: <strong>{totalEntries}</strong></p>
+                    <p>Current Streak: <strong>{currentStreak}</strong></p>
+                    <p>XP Level: <strong>{level}</strong></p>
+                    <p>Total xp: <strong>{totalXp}</strong></p>
                 </div>
                 
                 {/* Preferences/Options Section */}

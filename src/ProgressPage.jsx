@@ -2,30 +2,35 @@ import React, { useState } from 'react';
 import SideNav from './SideNav';
 import './ProgressPage.css';
 
-const MenuIcon = '☰'; 
+const MenuIcon = '☰';
+const XP_PER_LEVEL = 100;
 
-const dummyProgress = {
-    xpLevel: 82,
-    currentStreak: 7,
-    totalEntries: 45,
-    challengesCompleted: 3,
-    milestoneStatus: [
-        { id: 1, completed: true, date: 'Oct 1', label: 'First Steps' },
-        { id: 2, completed: true, date: 'Oct 8', label: 'Weekly Warrior' },
-        { id: 3, completed: false, date: 'Oct 15', label: 'Halfway Hero' },
-        { id: 4, completed: false, date: 'Oct 22', label: 'Month Master' },
-    ]
-};
+const ACHIEVEMENTS = [
+  { id: 1, label: 'First Steps', xpNeeded: 20 },
+  { id: 2, label: 'Weekly Warrior', xpNeeded: 70 },
+  { id: 3, label: 'Halfway Hero', xpNeeded: 150 },
+  { id: 4, label: 'Month Master', xpNeeded: 300 },
+];
 
-const ProgressPage = ({ goToPage }) => {
+const ProgressPage = ({ goToPage, stats }) => {
     const [isNavOpen, setIsNavOpen] = useState(false);
 
     const toggleNav = () => {
         setIsNavOpen(prev => !prev);
     };
 
-    const revisitMilestoneEntry = (milestoneId) => {
-        alert(`✨ Revisiting your beautiful journal entry from Milestone ${milestoneId}!`);
+    const safeStats =
+    stats || {totalXp: 0, level: 1, currentStreak: 0, totalEntries: 0,};
+
+    const { totalXp, level, currentStreak, totalEntries } = safeStats;
+
+    const xpIntoLevel = totalXp % XP_PER_LEVEL;
+    const xpPercent = Math.round((xpIntoLevel / XP_PER_LEVEL) * 100);
+
+    const unlockedAchievements = ACHIEVEMENTS.map((a) => ({...a, completed: totalXp >= a.xpNeeded,}));
+
+    const revisitMilestoneEntry = (label) => {
+        alert(`✨ Revisiting your beautiful journal entry from Milestone ${label}!`);
     };
 
     return (
@@ -46,7 +51,8 @@ const ProgressPage = ({ goToPage }) => {
                     <div className="xp-circle">
                         <div className="xp-inner-content">
                             <p>Your Journaling Journey</p>
-                            <span className="xp-level">Level {dummyProgress.xpLevel}</span>
+                            <span className="xp-level">Level {level}</span>
+                            <p>{totalXp} total xp</p>
                         </div>
                     </div>
                     
@@ -54,15 +60,18 @@ const ProgressPage = ({ goToPage }) => {
                     <div className="xp-bar-container">
                         <div 
                             className="xp-bar-fill" 
-                            style={{ width: `${dummyProgress.xpLevel}%` }}
+                            style={{ width: `${xpPercent}%` }}
                         ></div>
                     </div>
 
+                    <p className="xp-bar-label">
+                        {xpIntoLevel} of {XP_PER_LEVEL} xp to the next level
+                    </p>
+
                     {/* Key Metrics in Bubbles */}
                     <div className="key-metrics">
-                        <p>current streak: <b>{dummyProgress.currentStreak} days 🌟</b></p>
-                        <p>total entries: <b>{dummyProgress.totalEntries} pages 📖</b></p>
-                        <p>challenges completed: <b>{dummyProgress.challengesCompleted} wins 🏆</b></p>
+                        <p>current streak: <b>{currentStreak} days 🌟</b></p>
+                        <p>total entries: <b>{totalEntries} pages 📖</b></p>
                     </div>
                 </div>
 
@@ -70,17 +79,17 @@ const ProgressPage = ({ goToPage }) => {
                 <div className="milestone-path-container">
                     <h3>✨ Achievement Path ✨</h3>
                     <div className="milestone-path">
-                        {dummyProgress.milestoneStatus.map((milestone) => (
+                        {unlockedAchievements.map((milestone) => (
                             <div 
                                 key={milestone.id} 
                                 className={`milestone-node ${milestone.completed ? 'completed' : 'pending'}`}
-                                onClick={() => milestone.completed && revisitMilestoneEntry(milestone.id)}
+                                onClick={() => milestone.completed && revisitMilestoneEntry(milestone.label)}
                             >
                                 <div className="milestone-icon">
                                     {milestone.completed ? '🌟' : '⭐'}
                                 </div>
                                 <p className="milestone-label">{milestone.label}</p>
-                                {milestone.completed && <p className="milestone-date">{milestone.date}</p>}
+                                <p className="milestone-date"> needs {milestone.xpNeeded} xp</p>
                             </div>
                         ))}
                     </div>
