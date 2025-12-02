@@ -2,83 +2,93 @@ import React, { useState, useEffect } from 'react';
 import './LandingPage.css';
 
 const LandingPage = ({ onMoodConfirm }) => {
-    
+
     // State for the slider value (0 to 100)
-    const [moodValue, setMoodValue] = useState(100); 
+    const [moodValue, setMoodValue] = useState(100);
     // State for the dynamic image source and mood label
-    const [mood, setMood] = useState({ 
+    const [mood, setMood] = useState({
         imageSrc: 'great.png',
-        moodLabel: 'good' // Add mood label
+        moodLabel: 'good'
     });
 
-    // Helper function to determine mood image, snap value, and label
+    // Determines image + snap + text label
     const getMoodDetails = (value) => {
         if (value <= 25) {
-            return { 
-                imageSrc: '/thunder.png', 
-                snapValue: 0, 
-                moodLabel: 'bad' 
-            };
+            return { imageSrc: '/thunder.png', snapValue: 0, moodLabel: 'bad' };
         } else if (value > 25 && value <= 75) {
-            return { 
-                imageSrc: '/better.png', 
-                snapValue: 50, 
-                moodLabel: 'okay' 
-            };
+            return { imageSrc: '/better.png', snapValue: 50, moodLabel: 'okay' };
         } else {
-            return { 
-                imageSrc: '/great.png', 
-                snapValue: 100, 
-                moodLabel: 'good' 
-            };
+            return { imageSrc: '/great.png', snapValue: 100, moodLabel: 'good' };
         }
     };
 
-    // Effect to update image and snap slider position when moodValue changes
+    // ⭐ Mood color function — OUTSIDE useEffect
+    const getMoodColor = (mood) => {
+        switch (mood) {
+            case 'bad':
+                return '#ff6b6b'; // red
+            case 'okay':
+                return '#ffd670'; // gold
+            case 'good':
+                return '#8df5b2'; // mint green
+            default:
+                return '#ffffff';
+        }
+    };
+
+    // Updates mood + snaps slider
     useEffect(() => {
         const details = getMoodDetails(moodValue);
-        setMood({ 
+        setMood({
             imageSrc: details.imageSrc,
-            moodLabel: details.moodLabel 
+            moodLabel: details.moodLabel
         });
-        
+
         const slider = document.getElementById('moodSlider');
         if (slider) {
             slider.value = details.snapValue;
         }
     }, [moodValue]);
 
-    // Handler for slider input change
     const handleSliderChange = (event) => {
         setMoodValue(parseInt(event.target.value));
     };
 
-    // Handle confirm button click - pass mood to parent
     const handleConfirm = () => {
-        onMoodConfirm(mood.moodLabel); // Pass the mood label to App.js
+        onMoodConfirm(mood.moodLabel);
     };
 
     return (
         <div className="mobile-screen">
             <div className="landing-content">
+
                 <p className="subheading"> ✧˖°.welcome back, fefe࣪ ✧˖°.</p>
                 <h1>HOW ARE YOU FEELING TODAY?</h1>
 
-                {/* Mood Indicator Area with dynamic image */}
+                {/* Mood cloud image */}
                 <div className="mood-indicator-area">
-                    <img 
-                        src={mood.imageSrc} 
-                        alt="Mood face" 
+                    <img
+                        src={mood.imageSrc}
+                        alt="Mood face"
                         className="mood-face-image"
                     />
                 </div>
-                
+
+                {/* Mood Verification Text */}
+                <div className="mood-verification-text">
+                    Your Forecast Today:{' '}
+                    <span style={{ color: getMoodColor(mood.moodLabel) }}>
+                        {mood.moodLabel.toUpperCase()}
+                    </span>
+                </div>
+
+                {/* Slider */}
                 <div className="mood-selector-slider">
-                    <input 
-                        type="range" 
-                        id="moodSlider" 
-                        min="0" 
-                        max="100" 
+                    <input
+                        type="range"
+                        id="moodSlider"
+                        min="0"
+                        max="100"
                         value={moodValue}
                         step="1"
                         onChange={handleSliderChange}
@@ -90,11 +100,8 @@ const LandingPage = ({ onMoodConfirm }) => {
                     </div>
                 </div>
 
-                {/* CONFIRM BUTTON (Calls the navigation function with mood) */}
-                <button 
-                    className="confirm-button" 
-                    onClick={handleConfirm}
-                >
+                {/* Confirm Button */}
+                <button className="confirm-button" onClick={handleConfirm}>
                     C O N F I R M
                 </button>
 
