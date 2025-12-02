@@ -60,7 +60,7 @@ function App() {
     // Updated function used by LandingPage - now accepts mood
     const goToJournal = (mood = 'good') => {
         setUserMood(mood); // Save the selected mood
-        goToPage(2); // Go to JournalPage (not LevelUpPage)
+        goToPage(7); // Go to JournalPage (not LevelUpPage)
     };
 
     // Function to open an existing journal entry for editing
@@ -165,7 +165,14 @@ function App() {
             emojis: currentEmojis.length,
             totalWords: wordCount
         });
-        goToPage(2); // Go back to the Journal (Home) Page
+        
+        setStats((prev) => {
+        const justLeveledUp = prev.level < (1 + Math.floor(prev.totalXp / XP_PER_LEVEL));
+        if (!justLeveledUp) {
+            goToPage(2);
+        }
+        return prev;
+        });
     };
 
     // Function to update images from OpenJournal
@@ -268,14 +275,16 @@ function App() {
                         profilePic={profilePic}
                     />
                 );
-                 case 7:
-                    return (
-                        <LevelUpPage 
-                            level={2}
-                            totalXp={0}
-                            goToPage={goToPage}
-                        />
-                    );  
+            case 7:
+                return (
+                    <LevelUpPage 
+                        level={stats.level}
+                        totalXp={stats.totalXp}
+                        goToPage={goToPage}
+                        userName={userName}
+                        profilePic={profilePic}
+                    />
+                );  
             default:
                 return <LandingPage onMoodConfirm={goToJournal} />;
         }
